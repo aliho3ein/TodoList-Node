@@ -3,6 +3,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -10,6 +11,8 @@ const todoRouter = require("./routes/todo");
 const { catchErrors } = require("./controller/errorHandel");
 
 const app = express();
+
+app.use(cors());
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/todo-App", {

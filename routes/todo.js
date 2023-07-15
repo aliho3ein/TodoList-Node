@@ -5,10 +5,15 @@ const {
   getSingleTodo,
   updateSingleTodo,
   removeSingleTodo,
+  checkTokenValidation,
 } = require("../controller/todo.controller");
+
 const router = express.Router();
 
-router.route("/").get(getTodoList).post(createTodo);
+router
+  .route("/")
+  .get(checkTokenValidation, getTodoList)
+  .post(checkTokenValidation, createTodo);
 
 router
   .route("/:id")

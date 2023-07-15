@@ -1,16 +1,22 @@
-const { createToken } = require("../lib/token");
-const { createUser, checkUserValidation } = require("../model/user.model");
+const { createToken, validateToken } = require("../lib/token");
+const {
+  createUser,
+  checkUserValidation,
+  activeAccount,
+} = require("../model/user.model");
+const { sendActivateMail } = require("./../lib/mail");
 
-exports.signInUser = (req, res, next) => {
-  const { name, email, password } = req.body;
+exports.signInUser = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
 
-  createUser({ name, email, password })
-    .then((data) => {
-      res.send(data._id);
-    })
-    .catch(() => {
-      next();
-    });
+    const data = await createUser({ name, email, password });
+    const token = await createToken(data, "secret_key");
+    sendActivateMail(data._id, email);
+    res.status(201).send(token);
+  } catch {
+    next();
+  }
 };
 
 exports.loginUser = async (req, res, next) => {
@@ -22,7 +28,18 @@ exports.loginUser = async (req, res, next) => {
       throw new Error("user not exist");
     }
 
-    res.status(200).send(user);
+    const token = await createToken(user, "secret_key");
+    res.status(200).send(token);
+  } catch {
+    next();
+  }
+};
+
+exports.activeUser = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    const result = await activeAccount(token);
+    res.status(200).send(token);
   } catch {
     next();
   }

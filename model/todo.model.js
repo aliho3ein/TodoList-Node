@@ -1,4 +1,5 @@
 const Todo = require("./todo.schema");
+const User = require("./user.schema");
 
 exports.getList = async (id) => {
   try {
@@ -11,6 +12,14 @@ exports.getList = async (id) => {
 
 exports.createTodoItem = async (userId, title) => {
   try {
+    const user = await User.findById(userId);
+
+    if (!user.active) {
+      // pls verify ur account
+      console.log("pls verify ur account");
+      throw new Error();
+    }
+
     const newItem = await Todo.create({ userId, title });
     return newItem;
   } catch {

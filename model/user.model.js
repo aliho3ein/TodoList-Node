@@ -24,8 +24,12 @@ exports.checkUserValidation = async (email, password) => {
       return null;
     }
 
-    return user._id;
+    return user;
   } catch {
     throw new Error();
   }
+};
+
+exports.activeAccount = async (id) => {
+  return User.findByIdAndUpdate(id, { active: true }, { new: true });
 };

@@ -1,3 +1,4 @@
+const { validateToken } = require("../lib/token");
 const {
   getList,
   createTodoItem,
@@ -6,18 +7,26 @@ const {
   removeItem,
 } = require("../model/todo.model");
 
-exports.getTodoList = (req, res, next) => {
-  const { userId } = req.body;
+exports.checkTokenValidation = async (req, res, next) => {
+  try {
+    const token = req.headers.auth;
+    const user = await validateToken(token, "secret_key");
+    return next(user.payload._id);
+  } catch {
+    res.status(400).send("Invalid Token");
+  }
+};
 
-  getList(userId)
+exports.getTodoList = (authID, req, res, next) => {
+  getList(authID)
     .then((resolve) => res.status(200).send(resolve))
     .catch(() => next());
 };
 
-exports.createTodo = (req, res, next) => {
-  const { userId, title } = req.body;
+exports.createTodo = (authID, req, res, next) => {
+  const { title } = req.body;
 
-  createTodoItem(userId, title)
+  createTodoItem(authID, title)
     .then((resolve) => res.status(201).send(resolve))
     .catch(() => next());
 };
