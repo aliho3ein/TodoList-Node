@@ -24,8 +24,8 @@ function validatorRule(req, res, next) {
       .array()
       .map((err) => ({ errorMessage: err.msg }));
 
-    res.status(422).send({ errors: extractErrors });
+    res.status(400).send({ errors: extractErrors });
   }
 }
 
-module.exports = formValidation;
+module.exports = { formValidation };

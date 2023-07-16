@@ -7,13 +7,14 @@ const {
   removeSingleTodo,
   checkTokenValidation,
 } = require("../controller/todo.controller");
+const { check } = require("express-validator");
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(checkTokenValidation, getTodoList)
-  .post(checkTokenValidation, createTodo);
+  .post(check("title").trim().escape(), checkTokenValidation, createTodo)
+  .get(checkTokenValidation, getTodoList);
 
 router
   .route("/:id")

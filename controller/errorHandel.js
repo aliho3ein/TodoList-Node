@@ -1,4 +1,4 @@
 exports.catchErrors = (req, res) => {
-  console.log("===========Error================");
-  res.status(400).send("Error on user");
+  const { message = "err", code = 404 } = req.err;
+  res.status(code).send(message);
 };

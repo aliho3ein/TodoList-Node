@@ -9,6 +9,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const todoRouter = require("./routes/todo");
 const { catchErrors } = require("./controller/errorHandel");
+const { notFoundPage } = require("./routes/notFound");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/todo", todoRouter);
 app.use("/users", usersRouter);
+app.use("*", notFoundPage);
 
 app.use(catchErrors);
 

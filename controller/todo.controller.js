@@ -7,10 +7,13 @@ const {
   removeItem,
 } = require("../model/todo.model");
 
+require("dotenv").config();
+const config = require("./../config/environment");
+
 exports.checkTokenValidation = async (req, res, next) => {
   try {
     const token = req.headers.auth;
-    const user = await validateToken(token, "secret_key");
+    const user = await validateToken(token, process.env.API_KEY);
     return next(user.payload._id);
   } catch {
     res.status(400).send("Invalid Token");
@@ -26,9 +29,17 @@ exports.getTodoList = (authID, req, res, next) => {
 exports.createTodo = (authID, req, res, next) => {
   const { title } = req.body;
 
-  createTodoItem(authID, title)
+  createTodoItem(req, authID, title)
     .then((resolve) => res.status(201).send(resolve))
-    .catch(() => next());
+    .catch(() => {
+      // req.err = {
+      //   message: "pls verify ur account",
+      //   code: 422,
+      // };
+      // next();
+
+      res.status(422).send("pls verify ur account");
+    });
 };
 
 exports.getSingleTodo = (req, res, next) => {

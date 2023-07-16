@@ -10,13 +10,19 @@ exports.getList = async (id) => {
   }
 };
 
-exports.createTodoItem = async (userId, title) => {
+exports.createTodoItem = async (req, userId, title) => {
   try {
     const user = await User.findById(userId);
 
     if (!user.active) {
       // pls verify ur account
       console.log("pls verify ur account");
+
+      req.err = {
+        message: "pls verify ur account",
+        code: 422,
+      };
+
       throw new Error();
     }
 

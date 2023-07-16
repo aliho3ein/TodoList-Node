@@ -10,22 +10,34 @@ exports.createUser = async (data) => {
   }
 };
 
-exports.checkUserValidation = async (email, password) => {
+exports.checkUserValidation = async (req, email, password) => {
   try {
     const user = await User.findOne({ email });
 
     if (!user) {
+      req.err = {
+        message: "user not exist",
+        code: 400,
+      };
       return null;
     }
 
     const isPassValid = await user.authenticate(password);
 
     if (!isPassValid) {
+      req.err = {
+        message: "wrong Password",
+        code: 400,
+      };
       return null;
     }
 
     return user;
   } catch {
+    req.err = {
+      message: "Invalid user or Password",
+      code: 400,
+    };
     throw new Error();
   }
 };

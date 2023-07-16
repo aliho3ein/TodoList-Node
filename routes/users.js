@@ -1,10 +1,10 @@
-var express = require("express");
+const express = require("express");
 const {
   signInUser,
   loginUser,
   activeUser,
 } = require("../controller/user.controller");
-const formValidation = require("../controller/validation");
+const { formValidation } = require("../controller/validation");
 var router = express.Router();
 
 /* GET users listing. */
