@@ -44,7 +44,7 @@ exports.getItem = async (id) => {
 
 exports.updateItem = async (id, title) => {
   try {
-    const todo = await Todo.findByIdAndUpdate(id, { title }, { new: true });
+    const todo = await Todo.findByIdAndUpdate(id, title, { new: true });
     return todo;
   } catch {
     throw new Error();

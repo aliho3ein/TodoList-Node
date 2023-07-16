@@ -54,7 +54,7 @@ exports.updateSingleTodo = (req, res, next) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  updateItem(id, title)
+  updateItem(id, { title })
     .then((resolve) => res.status(200).send(resolve))
     .catch(() => next());
 };
@@ -64,5 +64,21 @@ exports.removeSingleTodo = (req, res, next) => {
 
   removeItem(id)
     .then(() => res.status(204).send("Item Deleted"))
+    .catch(() => next());
+};
+
+exports.setTodoAsDone = (req, res, next) => {
+  const { id } = req.params;
+
+  updateItem(id, { done: true })
+    .then((resolve) => res.status(200).send(resolve))
+    .catch(() => next());
+};
+
+exports.setTodoInProcess = (req, res, next) => {
+  const { id } = req.params;
+
+  updateItem(id, { inProcess: true })
+    .then((resolve) => res.status(200).send(resolve))
     .catch(() => next());
 };

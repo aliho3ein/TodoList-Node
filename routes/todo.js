@@ -6,6 +6,8 @@ const {
   updateSingleTodo,
   removeSingleTodo,
   checkTokenValidation,
+  setTodoAsDone,
+  setTodoInProcess,
 } = require("../controller/todo.controller");
 const { check } = require("express-validator");
 
@@ -21,5 +23,8 @@ router
   .get(getSingleTodo)
   .put(updateSingleTodo)
   .delete(removeSingleTodo);
+
+router.put("/done/:id", setTodoAsDone);
+router.put("/process/:id", setTodoInProcess);
 
 module.exports = router;
