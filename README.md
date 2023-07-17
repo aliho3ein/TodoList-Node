@@ -1,7 +1,7 @@
 # Todo-Backend
 
 ```bash
-export EndPoint_KEY="secretKey"
+export API_KEY="secretKey"
 ```
 
 This project was developed using Node.js within a timeframe of 12 hours. It has been successfully deployed on [render](https://render.com). <br>Below, you can find information about its usage and the technologies utilized:
