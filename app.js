@@ -15,11 +15,15 @@ const app = express();
 
 app.use(cors());
 
+//mongodb://127.0.0.1:27017/todo-App
 mongoose
-  .connect("mongodb://127.0.0.1:27017/todo-App", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://aliho3einde:n8f5Wn8yTMJHoSC3@cluster-02.s7fdfbt.mongodb.net/",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("MongoDB connected");
   })
